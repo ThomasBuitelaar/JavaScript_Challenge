@@ -5,16 +5,16 @@
 	<title>JS  Challenge</title>
 </head>
 <body>
-	<main>
-		<button id="back">Back</button>
+		<button id="back" onclick="prevPage()";>Back</button>
 		<h1 id="subject">Title</h1>
-		<p id="statement"></p>
-		<button id="agree">Eens</button>
-		<button id="disagree">Oneens</button>
-		<button id="ambivalent">Geen van beide</button>
-		<button id="skip">Sla deze vraag over</button>
+		<p id="statement">blablahierhoorttext</p>
+			<div id="choices">
+				<button id="agree" onclick="nextPage()";>Eens</button>
+				<button id="disagree" onclick="nextPage()";>Oneens</button>
+				<button id="ambivalent" onclick="nextPage()";>Geen van beide</button>
+				<button id="skip" onclick="nextPage()";>Sla deze vraag over</button>
+			</div>
 		<button id="result">Ga naar de resultaten</button>
-		<buton id="opinion">Laat zien wat de partijen erover denken</buton>
-	</main>
+		<button id="opinion">Laat zien wat de partijen erover denken</button>
 </body>
 </html>
