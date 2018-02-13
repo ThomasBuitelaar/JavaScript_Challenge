@@ -1,0 +1,22 @@
+.custom-card{
+    margin: 10px;
+    padding: 10px;
+    height: 90vh;
+    background-color: white;    
+}
+.custom-two{
+    margin: 10px;
+    width: 33%;
+    min-height: 5vh;
+    max-height: 40vh;
+    padding: 0px 10px 10px 10px;
+    overflow: auto;
+}
+.parties-div{
+    display: flex;
+}
+body{
+    background-image: url("../tweede-kamer.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
