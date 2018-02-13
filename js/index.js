@@ -24,7 +24,8 @@ function calculateResult(results){		//count all the answers and
         }
     });
 
-    console.log("einduitslag: (eens: " + AnswEens + ") (geen van beide: " + AnswNone + ") (oneens :" + AnswOneens + ")");
+    console.log("einduitslag: (Eens: " + AnswEens + ") (Geen van beide: " + AnswNone + ") (Oneens :" + AnswOneens + ")");
+    console.log(AnswEens + " " + AnswNone + " " + AnswOneens);
 }
 
 function createHomePage(){        
@@ -41,6 +42,10 @@ function createHomePage(){
 }
 
 function createReviewPage(results){             //guess what...
+    page.appendChild(elem);
+}
+
+function createReviewPage(results){
     clearPage();
     calculateResult(results);
 
@@ -54,6 +59,7 @@ function createReviewPage(results){             //guess what...
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-red w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
         }
         else{
+        }else{
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-green w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
         }
         
@@ -77,11 +83,16 @@ function createQuestionPage(indexn){
         element("button", text("Terug"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "back()")]),
         element("h2", text(subjects[indexn].title), [attribute("class", "w3-container")]),
         element("p", text(subjects[indexn].statement), [attribute("class", "w3-container")]),
+
         element("button", text("Eens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Eens', "+ indexn +")")]),
         element("button", text("Geen van beide"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Geen van beide', "+ indexn +")")]),
         element("button", text("Oneens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Oneens', "+ indexn +")")]),
         element("button", text("Overslaan"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Unanswered', "+ indexn +")")]),
 
+        element("button", text("Eens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('eens', "+ indexn +")")]),
+        element("button", text("Geen van beide"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('geen van beide', "+ indexn +")")]),
+        element("button", text("Oneens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('oneens', "+ indexn +")")]),
+        element("button", text("Overslaan"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('unanswered', "+ indexn +")")]),
 
     ], [attribute("class", "w3-card-4 custom-card")])
     var pariesThink = element("div", [], [attribute("class", "parties-div")]);
@@ -130,7 +141,6 @@ function next(value, question){
         index++;
         createReviewPage(results);
     }
-    
 }
 
 function back(){
