@@ -16,8 +16,11 @@
     display: flex;
 }
 body{
-    text-align: center;
-    background-image: url("../tweede-kamer.jpg");
+    background-image: url("tweede-kamer.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
+}
+
+#main{
+
 }

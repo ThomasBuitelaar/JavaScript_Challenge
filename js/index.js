@@ -41,10 +41,6 @@ function createHomePage(){
     page.appendChild(elem);             //dus document.getElementById("main").appendChild(elem);
 }
 
-function createReviewPage(results){             //guess what...
-    page.appendChild(elem);
-}
-
 function createReviewPage(results){
     clearPage();
     calculateResult(results);
@@ -57,8 +53,6 @@ function createReviewPage(results){
     results.forEach(result => {
         if(result.value == "unanswered"){
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-red w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
-        }
-        else{
         }else{
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-green w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
         }
@@ -67,7 +61,7 @@ function createReviewPage(results){
     });
 
     results.forEach(result => {
-       var resultsText = element("p", text("Vraag " + result.question + ": " + result.value), [attribute("class", "w3-container")]);
+       var resultsText = element("p", text("vraag: " + result.question + ", resultaat: " + result.value), [attribute("class", "w3-container")]);
        elem.appendChild(resultsText);
     });
     
@@ -88,11 +82,6 @@ function createQuestionPage(indexn){
         element("button", text("Geen van beide"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Geen van beide', "+ indexn +")")]),
         element("button", text("Oneens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Oneens', "+ indexn +")")]),
         element("button", text("Overslaan"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Unanswered', "+ indexn +")")]),
-
-        element("button", text("Eens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('eens', "+ indexn +")")]),
-        element("button", text("Geen van beide"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('geen van beide', "+ indexn +")")]),
-        element("button", text("Oneens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('oneens', "+ indexn +")")]),
-        element("button", text("Overslaan"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('unanswered', "+ indexn +")")]),
 
     ], [attribute("class", "w3-card-4 custom-card")])
     var pariesThink = element("div", [], [attribute("class", "parties-div")]);
