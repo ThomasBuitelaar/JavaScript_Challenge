@@ -201,7 +201,7 @@ function next(value, question)
     if(q < subjects.length)
     {
         index++;
-        createQuestionPage(index);\
+        createQuestionPage(index);
     
     }
     else
