@@ -2,46 +2,64 @@ var page = document.getElementById("main");
 var index = -1;
 results = [];
 
-function onInit(){
+function onInit()
+{
     createHomePage();
 }
 
-function clearPage(){
+function clearPage()
+{
     page.innerHTML = "";  
 }
 
-function calculateResult(results){		//count all the answers and
+function calculateResult(results)
+{		//count all the answers and
     var AnswEens = 0;					//display the outcome in the console
     var AnswNone = 0;					
     var AnswOneens = 0;
-    results.forEach(item => {
-        if(item.value == "eens"){
+    results.forEach(item =>
+    {
+        if(item.value == "Eens")
+        {
             AnswEens++;
-        }else if(item.value == "geen van beide"){
+        }
+        else if
+        (item.value == "Geen van beide")
+        {
             AnswNone++;
-        }else if(item.value == "oneens"){
+        }
+        else if
+        (item.value == "Oneens")
+        {
             AnswOneens++;
         }
     });
 
     console.log("einduitslag: (Eens: " + AnswEens + ") (Geen van beide: " + AnswNone + ") (Oneens :" + AnswOneens + ")");
     console.log(AnswEens + " " + AnswNone + " " + AnswOneens);
+    /*
+    parties.forEach(item=>
+    {
+        console.log(parties[0].points)
+    });
+    */
 }
 
-function createHomePage(){        
+function createHomePage()
+{        
     clearPage();
 
-    var elem = element("div", [		//the elements shown on the home screen
+    var elem = element("div", [
         element("h3", text("Klik op start om te beginnen"), [attribute("class", "w3-container")]), 
         element("p", text("Test uw politieke voorkeur aan de hand van " + subjects.length + " stellingen"), [attribute("class", "w3-container")]),
-        element("button", text("Start"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next()")])
+        element("button", text("Start"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next()")]),
     ], [attribute("class", "w3-card-4 custom-card")]);
 
-
-    page.appendChild(elem);             //dus document.getElementById("main").appendChild(elem);
+    page.appendChild(elem);
 }
 
-function createReviewPage(results){
+function createReviewPage(results)
+{
     clearPage();
     calculateResult(results);
 
@@ -50,26 +68,34 @@ function createReviewPage(results){
         element("h4", text("Bekijk je resultaten"), [attribute("class", "w3-container")]),
     ], [attribute("class", "w3-card-4 custom-card")]);
 
-    results.forEach(result => {
-        if(result.value == "unanswered"){
+    results.forEach(result =>
+    {
+        if(result.value == "unanswered")
+
+        { 
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-red w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
-        }else{
+        }
+        else
+        {
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-green w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
         }
         
         elem.appendChild(goToQuestionButton);
     });
 
-    results.forEach(result => {
+    results.forEach(result =>
+    {
        var resultsText = element("p", text("vraag: " + result.question + ", resultaat: " + result.value), [attribute("class", "w3-container")]);
        elem.appendChild(resultsText);
     });
     
 
+
     page.appendChild(elem);
 }
 
-function createQuestionPage(indexn){
+function createQuestionPage(indexn)
+{
     index = indexn;
     clearPage();
 
@@ -89,18 +115,24 @@ function createQuestionPage(indexn){
     var ambivalent = element("div", [element("h1", text("Geen van beide"))], [attribute("class", "w3-card-4 custom-two")]);
     var contra = element("div", [element("h1", text("Tegen"))], [attribute("class", "w3-card-4 custom-two")]);
 
-    subjects[indexn].parties.forEach(parie => {
-        if(parie.position == "pro"){
+    subjects[indexn].parties.forEach(parie =>
+    {
+        if(parie.position == "pro")
+        {
             pro.appendChild(element("div", [
                 element("h4", text(parie.name)),
                 element("p", text(parie.explanation))
             ], []))
-        }else if(parie.position == "ambivalent"){
+        }
+        else if(parie.position == "ambivalent")
+        {
             ambivalent.appendChild(element("div", [
                 element("h4", text(parie.name)),
                 element("p", text(parie.explanation))
             ], []))          
-        }else{
+        }
+        else
+        {
             contra.appendChild(element("div", [
                 element("h4", text(parie.name)),
                 element("p", text(parie.explanation))
@@ -114,32 +146,81 @@ function createQuestionPage(indexn){
     page.appendChild(elem);
 }
 
-function next(value, question){
+function next(value, question)
+{
     var q;
-    if(question == undefined){q = 0;}
-    else{q = question + 1}
-    
-    if(value != undefined){
+    if(question == undefined)
+        {
+            q = 0;
+        }
+    else
+        {
+            q = question + 1
+        }
+
+
+    if(value != undefined)
+    {
         results[q] = {question: q, value: value};   
     }
+
+    /*
+     if(value == "Eens")
+    {
+
+        subjects[index].parties.forEach(parie =>
+            {
+                if(parie.position == "pro")
+                {
+                    
+                }
+            });
+    }
+    else if(value == "Geen van beide")
+    {
+        subjects[index].parties.forEach(parie =>
+            {
+                if(parie.position == "ambivalent")
+                {
+                    
+                }
+            });
+    }
+    else if(value == "Oneens")
+    {
+        subjects[index].parties.forEach(parie =>
+            {
+                if(parie.position == "contra")
+                {
+                    
+                }
+            });
+    }
+    */
+
+    if(q < subjects.length)
+    {
+        index++;
+        createQuestionPage(index);\
     
-    if(q < subjects.length){                //kijkt naaar hoeveelheid vragen, en doet er telkens +1 bij var index en word de volgende vraag getoont
-        index++;                            //vervolgens, wanneer q niet meer kleiner is dan subjects.length (ofterwijl de hoeveelheid vragen)
-        createQuestionPage(index);          //dan wordt de revieuwpage ingeladen.
-    }else{
+    }
+    else
+    {
         index++;
         createReviewPage(results);
     }
 }
 
-function back(){
+function back()
+{
     index--;
-    if(index == -1){                
+    if(index == -1)
+    {                
         createHomePage();
-    }else{
+    }
+    else
+    {
         createQuestionPage(index);        
     }
-
 }
-
 onInit();
