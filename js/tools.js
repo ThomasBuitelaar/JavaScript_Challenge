@@ -1,29 +1,44 @@
-function element(name, el, attributes) {
+var page = document.getElementById("main");
+var index = -1;
+results = [];
+points = [];
+
+ function element(name, el, attributes)
+ {
     var parent = document.createElement(name);
     if (attributes) {
-        attributes.forEach(attr => {
+        attributes.forEach(attr =>
+        {
             parent.attributes.setNamedItem(attr);
         });
     }
-    if (el) {
-        if (Array.isArray(el)) {
+    if (el)
+    {
+        if (Array.isArray(el)) 
+        {
             el.forEach(e => parent.appendChild(e));
-        } else {
+        }
+        else
+        {
             parent.appendChild(el);
         }
     }
     return parent;
 }
-function attribute(name, value) {
+
+function attribute(name, value)
+{
     var attr = document.createAttribute(name);
     attr.value = value;
     return attr;
 }
-function text(text) {
+
+function text(text)
+{
     return document.createTextNode(text);
 }
 
-
-function onInit(){
+function onInit()
+{
     createHomePage();
 }
