@@ -1,3 +1,8 @@
+var page = document.getElementById("main");
+var index = -1;
+results = [];
+points = [];
+
  function element(name, el, attributes)
  {
     var parent = document.createElement(name);

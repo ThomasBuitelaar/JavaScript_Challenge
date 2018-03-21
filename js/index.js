@@ -1,10 +1,10 @@
-var page = document.getElementById("main");
-var index = -1;
-results = [];
-
 function onInit()
 {
+    console.log("var index: "+index);
     createHomePage();
+    parties.forEach(partie => {
+        points.push({n: partie.name, p: 0});
+    });
 }
 
 function clearPage()
@@ -13,40 +13,41 @@ function clearPage()
 }
 
 function calculateResult(results)
-{		//count all the answers and
-    var AnswEens = 0;					//display the outcome in the console
-    var AnswNone = 0;					
+{                                        //count all the answers and
+    var AnswEens = 0;                   //display the outcome in the console
+    var AnswNone = 0;                   
     var AnswOneens = 0;
     results.forEach(item =>
     {
         if(item.value == "Eens")
-        {
+            {
             AnswEens++;
-        }
+            }
         else if
-        (item.value == "Geen van beide")
-        {
-            AnswNone++;
-        }
+        (item.value == "Geen")
+            {
+            AnswNone++; 
+            }
         else if
         (item.value == "Oneens")
         {
             AnswOneens++;
         }
     });
-
     console.log("einduitslag: (Eens: " + AnswEens + ") (Geen van beide: " + AnswNone + ") (Oneens :" + AnswOneens + ")");
     console.log(AnswEens + " " + AnswNone + " " + AnswOneens);
-    /*
+    
     parties.forEach(item=>
     {
         console.log(parties[0].points)
     });
-    */
+    
 }
+
 
 function createHomePage()
 {        
+
     clearPage();
 
     var elem = element("div", [
@@ -59,18 +60,20 @@ function createHomePage()
 }
 
 function createReviewPage(results)
-{
+{   
     clearPage();
     calculateResult(results);
 
-    var elem = element("div", [
+    var elem = element("div", 
+        [
         element("button", text("Terug"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "back()")]),
         element("h4", text("Bekijk je resultaten"), [attribute("class", "w3-container")]),
-    ], [attribute("class", "w3-card-4 custom-card")]);
+        ]
+        , [attribute("class", "w3-card-4 custom-card")]);
 
     results.forEach(result =>
     {
-        if(result.value == "unanswered")
+        if(result.value == "Unanswered")
 
         { 
             var goToQuestionButton = element("button", [text(result.question)], [attribute("class", "w3-button w3-red w3-hover-blue"), attribute("onclick", "createQuestionPage(" + (result.question - 1) + ")")])
@@ -88,8 +91,12 @@ function createReviewPage(results)
        var resultsText = element("p", text("vraag: " + result.question + ", resultaat: " + result.value), [attribute("class", "w3-container")]);
        elem.appendChild(resultsText);
     });
-    
 
+    points.forEach(point =>
+    {
+        var count = element("p", text(point.n +" met "+ point.p + " punten"), [attribute("class", "w3-container")]);
+        page.appendChild(count);
+    });
 
     page.appendChild(elem);
 }
@@ -105,7 +112,7 @@ function createQuestionPage(indexn)
         element("p", text(subjects[indexn].statement), [attribute("class", "w3-container")]),
 
         element("button", text("Eens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Eens', "+ indexn +")")]),
-        element("button", text("Geen van beide"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Geen van beide', "+ indexn +")")]),
+        element("button", text("Geen van beide"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Geen', "+ indexn +")")]),
         element("button", text("Oneens"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Oneens', "+ indexn +")")]),
         element("button", text("Overslaan"), [attribute("class", "w3-button w3-hover-blue"), attribute("onclick", "next('Unanswered', "+ indexn +")")]),
 
@@ -146,67 +153,84 @@ function createQuestionPage(indexn)
     page.appendChild(elem);
 }
 
+
 function next(value, question)
 {
-    var q;
+    console.log("var index: "+index);
     if(question == undefined)
         {
-            q = 0;
+            index = 0;
         }
     else
         {
-            q = question + 1
+            index = question + 1;
+            if(index < subjects.length)
+            {
+             if(value == "Eens")
+            {
+                subjects[index].parties.forEach(par =>
+                {
+                    if(par.position == "pro")
+                    {
+                        points.forEach(point =>
+                        {
+                            if(point.n == par.name)
+                            {
+                                point.p++;
+                            }
+                        });
+                    }
+                });
+            }
+            if(value == "Oneens")
+            {
+                subjects[index].parties.forEach(par =>
+                {
+                    if(par.position == "contra")
+                    {
+                        points.forEach(point =>
+                        {
+                            if(point.n == par.name)
+                            {
+                                point.p++;
+                            }
+                        });
+                    }
+                });
+            }
+            if(value == "Geen")
+            {
+                subjects[index].parties.forEach(par =>
+                {
+                    if(par.position == "ambivalent")
+                    {
+                        points.forEach(point =>
+                        {
+                            if(point.n == par.name)
+                            {
+                                point.p++;
+                            }
+                        });
+                    }
+                });
+            }
         }
+    }
+
 
 
     if(value != undefined)
     {
-        results[q] = {question: q, value: value};   
+        results[index] = {question: index, value: value};   
     }
 
-    /*
-     if(value == "Eens")
+    if(index < subjects.length)
     {
-
-        subjects[index].parties.forEach(parie =>
-            {
-                if(parie.position == "pro")
-                {
-                    
-                }
-            });
-    }
-    else if(value == "Geen van beide")
-    {
-        subjects[index].parties.forEach(parie =>
-            {
-                if(parie.position == "ambivalent")
-                {
-                    
-                }
-            });
-    }
-    else if(value == "Oneens")
-    {
-        subjects[index].parties.forEach(parie =>
-            {
-                if(parie.position == "contra")
-                {
-                    
-                }
-            });
-    }
-    */
-
-    if(q < subjects.length)
-    {
-        index++;
         createQuestionPage(index);
     
     }
     else
     {
-        index++;
         createReviewPage(results);
     }
 }
@@ -223,4 +247,5 @@ function back()
         createQuestionPage(index);        
     }
 }
+
 onInit();
