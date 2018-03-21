@@ -1,6 +1,7 @@
 function onInit()
 {
     console.log("var index: "+index);
+    console.log("-------------------------");
     createHomePage();
     parties.forEach(partie => {
         points.push({n: partie.name, p: 0});
@@ -41,7 +42,6 @@ function calculateResult(results)
     {
         console.log(parties[0].points)
     });
-    
 }
 
 
@@ -92,12 +92,23 @@ function createReviewPage(results)
        elem.appendChild(resultsText);
     });
 
+    points.sort(function(a,b){
+        if (a.p > b.p){
+            return -1;
+        }
+        if (a.p < b.p){
+            return 1;
+        }
+        return 0;
+
+    });
+    console.log(points);
+
     points.forEach(point =>
     {
         var count = element("p", text(point.n +" met "+ point.p + " punten"), [attribute("class", "w3-container")]);
         page.appendChild(count);
     });
-
     page.appendChild(elem);
 }
 
@@ -153,11 +164,13 @@ function createQuestionPage(indexn)
     page.appendChild(elem);
 }
 
-
 function next(value, question)
 {
     console.log("var index: "+index);
-    if(question == undefined)
+    console.log(results);
+    console.log(points);
+    console.log("-------------------------");
+        if(question == undefined)
         {
             index = 0;
         }
@@ -182,6 +195,7 @@ function next(value, question)
                     }
                 });
             }
+
             if(value == "Oneens")
             {
                 subjects[index].parties.forEach(par =>
@@ -198,6 +212,7 @@ function next(value, question)
                     }
                 });
             }
+
             if(value == "Geen")
             {
                 subjects[index].parties.forEach(par =>
@@ -217,8 +232,6 @@ function next(value, question)
         }
     }
 
-
-
     if(value != undefined)
     {
         results[index] = {question: index, value: value};   
@@ -227,7 +240,6 @@ function next(value, question)
     if(index < subjects.length)
     {
         createQuestionPage(index);
-    
     }
     else
     {
@@ -247,5 +259,4 @@ function back()
         createQuestionPage(index);        
     }
 }
-
 onInit();
